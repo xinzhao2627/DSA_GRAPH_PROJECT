@@ -1,0 +1,9 @@
+<?import javafx.scene.layout.BorderPane?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="com.example.dsa.HelloController">
+    <center>
+        <AnchorPane fx:id="graph" style="--fxbackground-color:lightblue"
+            onMousePressed="#onGraphPressed"/>
+    </center>
+</BorderPane>
