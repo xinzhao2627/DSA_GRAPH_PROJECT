@@ -1,0 +1,12 @@
+.UIvertex {
+    -fx-font-size: 15;
+    -fx-font-weight: bold;
+    -fx-background-color: white;
+    -fx-background-radius: 22;
+    -fx-border-color: none;
+}
+
+.UIcircle {
+    -fx-background-color: white;
+    -fx-border-color: black;
+}

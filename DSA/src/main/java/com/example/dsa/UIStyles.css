@@ -1,0 +1,8 @@
+.UIvertex {
+    -fx-font-size: 15;
+    -fx-font-weight: bold;
+    -fx-background-color: white;
+    -fx-background-radius: 22;
+    -fx-border-color: black;
+
+}
