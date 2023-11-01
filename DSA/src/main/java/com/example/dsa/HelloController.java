@@ -91,6 +91,8 @@ public class HelloController {
         vertex_button_array.add(vertex_button);
 
         vertex_button.setOnDragDetected(e -> DetectDrag(e, vertex_button));
+
+
         vertex_button.setOnMouseDragged(e -> WhenDragged(e, vertex_button));
 
 
@@ -132,7 +134,8 @@ public class HelloController {
                 }
             }
         });
-        // DELETE THE VERTEX
+
+        // DELETE THE VERTEX // ALSO DELETE ITS EDGES
         vertex_button.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.DELETE) {
                 String style = vertex_button.getStyle();
@@ -140,7 +143,34 @@ public class HelloController {
                     vertex_button.setStyle(null);
                     color_counter -= 1;
                 }
+
+                //must also remove the edge simultaneously in the backend and frontend
+                    // to remove in front
+                for (Line tmp: edges_button_array){
+
+                    System.out.println("THE LINE IS: " + tmp.getId());
+                    // this if statement visually removes the edges if the id of one of the lines is present on the
+                    // id of the vertex
+                    if (tmp.getId().contains(vertex_button.getText())){
+                        System.out.println("REMOVED: " + tmp.getId());
+                        System.out.println("BECAUSE: " + tmp.getId() + " contains " + vertex_button.getText() );
+                        graph.getChildren().remove(tmp);
+                    }
+                }
+                    // remove in backend
+                for (Vertex vertex_tmp: graph_backend.getVertices()){
+                    vertex_tmp.removeEdge(vertex_button.getVertexObj());
+                }
+
+                //then remove in the whole graph
+                graph_backend.removeVertex(vertex_button.getVertexObj());
+
+
+                // remove in front end
                 graph.getChildren().remove(vertex_button);
+
+                //update
+                graph_backend.print();
             }
         });
 
@@ -155,6 +185,7 @@ public class HelloController {
 
         // Coordinate of vertex v0 (A) and v1(B)
         String edgename = v0.getText()+v1.getText();
+        String rev_edgename = v1.getText() + v0.getText();
 
         Boolean has_duplicate = false;
         for (Line tmp: edges_button_array){
@@ -169,55 +200,16 @@ public class HelloController {
 
             Line line = new Line(v0.getLayoutX(),v0.getLayoutY(), v1.getLayoutX(), v1.getLayoutY());
             line.setId(edgename);
+
+           Line line2 = new Line(v0.getLayoutX(),v0.getLayoutY(), v1.getLayoutX(), v1.getLayoutY());
+            line2.setId(rev_edgename);
+
             System.out.println(line.getId());
             graph.getChildren().add(line);
+
             edges_button_array.add(line);
+            edges_button_array.add(line2);
 
-            //        // when hovered, a visual dot would appear through starting and dot_end_loc points
-//        Circle startDot;
-//        Circle endDot;
-//        startDot = new Circle(); // Adjust the size as needed
-//        startDot.getStyleClass().add("UIcircle");
-//        startDot.setRadius(5.0f);
-//
-//        endDot = new Circle(); // Adjust the size as needed
-//        endDot.setRadius(5.0f);
-//        endDot.getStyleClass().add("UIcircle");
-//
-//
-//        // scale the dot location
-//        double[] dot_start_loc = DotScaler(line.getStartX(),line.getStartY(), line.getEndX(), line.getEndY());
-//        double[] dot_end_loc = DotScaler(line.getEndX(), line.getEndY(),line.getStartX(),line.getStartY() );
-//
-//
-//        // store the dot location
-//        double dotx3 = dot_start_loc[0]; //x
-//        double doty3 = dot_start_loc[1]; //y
-//        double dotx4 = dot_end_loc[0]; //x
-//        double doty4 = dot_end_loc[1]; //y
-//
-//        // set the dot location
-//        startDot.setLayoutX(dotx3);
-//        startDot.setLayoutY(doty3);
-//        endDot.setLayoutX(dotx4);
-//        endDot.setLayoutY(doty4);
-//
-//        graph.getChildren().add(startDot);
-//        graph.getChildren().add(endDot);
-//
-//        startDot.setVisible(false);
-//        endDot.setVisible(false);
-//
-//        //move an edge to another vertex
-//        startDot.setOnMouseDragged(e -> WhenEdgePointDragged(e, startDot, line, "start"));
-//        endDot.setOnMouseDragged(e -> WhenEdgePointDragged(e, endDot, line, "end"));
-//
-//        // fix visuals, line must be behind the vertex
-//        startDot.setOnDragDetected(e-> DetectEdgePointDrag(e, startDot, line));
-//        endDot.setOnDragDetected(e -> DetectEdgePointDrag(e, endDot, line));
-
-            // REMOVE EDGE or LINE
-            // remove edge when double clicked
             line.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2) {
                     graph.getChildren().remove(line);
@@ -226,24 +218,7 @@ public class HelloController {
             });
             String default_width = "-fx-stroke-width: 5;";
             line.setStyle(default_width);
-//        // change color when mouse is hovered in the line
-//        String highlightStyle = "-fx-stroke: blue;" + default_width;
 
-//        // when hovered in edge
-//        line.setOnMouseEntered(event -> {
-//            startDot.setVisible(true);
-//            startDot.toFront();
-//            endDot.toFront();
-//            endDot.setVisible(true);
-//            line.setStyle(highlightStyle);
-//        });
-
-//        // when exit hovering the edge
-//        line.setOnMouseExited(event -> {
-//            startDot.setVisible(false);
-//            endDot.setVisible(false);
-//            line.setStyle(default_width);
-//        });
             graph_backend.addEdge(v0.getVertexObj(), v1.getVertexObj(), null);
             graph_backend.print();
             line.toBack();
@@ -259,26 +234,33 @@ public class HelloController {
 
     // WHEN THE VERTEX IS DRAGGED
     private void WhenDragged(MouseEvent e, VxButtonObj vertex) {
-
-        // drag the button along the position of the mouse
+        // drag the button or the vertex along the position of the mouse
         vertex.setLayoutX(vertex.getLayoutX() + e.getX() + vertex.getTranslateX());
         vertex.setLayoutY(vertex.getLayoutY() + e.getY() + vertex.getTranslateY());
 
-        //
+        double newX = vertex.getLayoutX() + e.getX() + vertex.getTranslateX();
+        double newY = vertex.getLayoutY() + e.getY() + vertex.getTranslateY();
 
-
-        // add come code where we find the edges of the vertex, if an edge is found, also include that to be dragged
-        // BACKEND SECTION
-        // add function findEdges(Vertex a); (backend)
+        // call first the edges of the vertex
+        for(Edge edge_tmp: vertex.getVertexObj().getEdges()){
+            // to find the specific line in the frontend from the backend
+            for (Line line_tmp: edges_button_array){
+                // if found the line
+                if (line_tmp.getId().contains(edge_tmp.getStartV().getData()) && line_tmp.getId().contains(edge_tmp.getEndV().getData())){
+                    String k = String.valueOf(line_tmp.getId().charAt(1));
+                    String l = String.valueOf(line_tmp.getId().charAt(0));
+                    // if the vertex you are moving has the endpoint of the line
+                    if(vertex.getText().equals(k)){
+                        line_tmp.setEndX(newX);
+                        line_tmp.setEndY(newY);
+                    } else if (vertex.getText().equals(l)) { // but if the vertex you are moving has the startingpoint of the line
+                        line_tmp.setStartX(newX);
+                        line_tmp.setStartY(newY);
+                    }
+                }
+            }
+        }
     }
-//    // AAYUSIN PA
-//    private double[] DotScaler(double x1, double y1, double x2, double y2){
-//        double theta = Math.atan2(y2-y1, x2-x1);
-//        return new double[] {
-//                x1 + Math.cos(theta) * 20,
-//                y1 + Math.sin(theta) * 20
-//        };
-//    }
 
     private void WhenEdgePointDragged(MouseEvent e, Circle c, Line line, String loc){
         c.setLayoutX(c.getLayoutX() + e.getX() + c.getTranslateX());
@@ -303,23 +285,4 @@ public class HelloController {
     //visual fix for edges, dont mind
     private void DetectEdgePointDrag(MouseEvent e, Circle c, Line line) {line.toBack();         }
 
-//    private void snapToVertex(double x, double y, Line line, double snappingRange) {
-//        for (Button vertex : vertex_button_array) {
-//            double vertexX = vertex.getLayoutX();
-//            double vertexY = vertex.getLayoutY();
-//
-//            // Calculate the distance between the line endpoint and the vertex
-//            double distance = Math.sqrt(Math.pow(x - vertexX, 2) + Math.pow(y - vertexY, 2));
-//
-//            if (distance <= snappingRange) {
-//                if (line.getStartX() == x && line.getStartY() == y) {
-//                    line.setStartX(vertexX);
-//                    line.setStartY(vertexY);
-//                } else if (line.getEndX() == x && line.getEndY() == y) {
-//                    line.setEndX(vertexX);
-//                    line.setEndY(vertexY);
-//                }
-//            }
-//        }
-//    }
 }
