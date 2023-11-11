@@ -1,26 +1,38 @@
 package com.example.dsa;
 
+import javafx.animation.TranslateTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.Optional;
+import java.util.Iterator;
+import java.util.ResourceBundle;
 
-public class HelloController {
+public class HelloController implements Initializable {
 
     // dont mind this, just to limit two highights when creating a connection.
     public int color_counter = 0;
+
     //vertex_button_array is where all vertex (button) are stored.
     public ArrayList<VxButtonObj> vertex_button_array = new ArrayList<>();
 
@@ -29,12 +41,94 @@ public class HelloController {
     //edges_button_array is where all edges (line) are stored.
     public ArrayList<Line> edges_button_array = new ArrayList<>();
 
+    ShowHamilCircuit showHamilCircuit;
+    ShowEulerCirc showEulerCirc;
+    ShowHamilPath showHamilPath;
+
+    DataModel dataModel;
+
+
+    @FXML
+    private BorderPane borderpane;
+
+    @FXML
+    private Button About;
+
+    @FXML
+    private Button Djikstra;
+
+    @FXML
+    private Button EulerianCircuit;
+
+    @FXML
+    private Button EulerianPath;
+
+    @FXML
+    private Button HamiltonianCircuit;
+
+
+    @FXML
+    private Button HamiltonianPath;
+
+    @FXML
+    private Button Instructions;
+
     @FXML
     private Label welcomeText;
     @FXML
     AnchorPane graph;
-    @FXML
 
+    @FXML
+    private Label Menu;
+
+    @FXML
+    private Label MenuBack;
+
+    @FXML
+    private ImageView exit;
+
+    @FXML
+    private AnchorPane slider;
+
+    @FXML
+    private Button implementer;
+
+    Parent root;
+
+    @FXML
+    private Button reset_btn;
+
+
+    @FXML
+    void reset(MouseEvent event) {
+        System.out.println("reset clicked");
+        graph_backend = new Graph(false, false);
+        graph.getChildren().clear();
+        edges_button_array.clear();
+        vertex_button_array.clear();
+        graph.setDisable(false);
+    }
+
+
+    public void setHelloControllerData (AnchorPane graph_frontend, Graph graph_backend, ArrayList<VxButtonObj> vertex_button_array, ArrayList<Line> edges_button_array ){
+        this.graph.getChildren().addAll(graph_frontend.getChildren());
+        this.vertex_button_array = vertex_button_array;
+        this.edges_button_array = edges_button_array;
+        this.graph_backend = graph_backend;
+
+        this.graph.toFront();
+
+//        for (VxButtonObj tmp: this.vertex_button_array){
+//            System.out.println("vertex found: " + tmp.getText());
+//            tmp.setVisible(true);
+//        }
+//
+//        for (Line tmp: this.edges_button_array){
+//            System.out.println("line found " + tmp.getId());
+//            tmp.setVisible(true);
+//        }
+        graph.setDisable(true);
+    }
 
 
     // when mouse is left clicked, a vertex would pop up
@@ -146,17 +240,33 @@ public class HelloController {
 
                 //must also remove the edge simultaneously in the backend and frontend
                     // to remove in front
-                for (Line tmp: edges_button_array){
-
+//                for (Line tmp: edges_button_array) {
+//
+//                    System.out.println("THE LINE IS: " + tmp.getId());
+//
+//                    // this if statement visually removes the edges if the id of one of the lines is present on the
+//                    // id of the vertex
+//                    if (tmp.getId().contains(vertex_button.getText())) {
+//                        System.out.println("REMOVED: " + tmp.getId());
+//                        System.out.println("BECAUSE: " + tmp.getId() + " contains " + vertex_button.getText());
+//                        graph.getChildren().remove(tmp);
+//                    }
+//                }
+                Iterator<Line> it = edges_button_array.iterator();
+                while (it.hasNext()){
+                    Line tmp = it.next();
                     System.out.println("THE LINE IS: " + tmp.getId());
+
                     // this if statement visually removes the edges if the id of one of the lines is present on the
                     // id of the vertex
-                    if (tmp.getId().contains(vertex_button.getText())){
+                    if (tmp.getId().contains(vertex_button.getText())) {
                         System.out.println("REMOVED: " + tmp.getId());
-                        System.out.println("BECAUSE: " + tmp.getId() + " contains " + vertex_button.getText() );
+                        System.out.println("BECAUSE: " + tmp.getId() + " contains " + vertex_button.getText());
                         graph.getChildren().remove(tmp);
+                        it.remove();
                     }
                 }
+
                     // remove in backend
                 for (Vertex vertex_tmp: graph_backend.getVertices()){
                     vertex_tmp.removeEdge(vertex_button.getVertexObj());
@@ -165,6 +275,8 @@ public class HelloController {
                 //then remove in the whole graph
                 graph_backend.removeVertex(vertex_button.getVertexObj());
 
+                //remove in a stored arraylist of buttons
+                vertex_button_array.remove(vertex_button);
 
                 // remove in front end
                 graph.getChildren().remove(vertex_button);
@@ -174,8 +286,10 @@ public class HelloController {
             }
         });
 
-        // gumana toh
-        vertex_button.setVertexObj(graph_backend.addVertex(vertex_button.getText()));
+        // gumana toh BACKEND
+        Vertex v = graph_backend.addVertex(vertex_button.getText());
+        vertex_button.setVertexObj(v);
+        //graph_backend.addVertex(vertex_button.getText());
         return vertex_button;
     }
 
@@ -185,8 +299,8 @@ public class HelloController {
 
         // Coordinate of vertex v0 (A) and v1(B)
         String edgename = v0.getText()+v1.getText();
-        String rev_edgename = v1.getText() + v0.getText();
 
+        //check if edge already exist between v0 and v1
         Boolean has_duplicate = false;
         for (Line tmp: edges_button_array){
             String s_tmp = tmp.getId();
@@ -196,27 +310,26 @@ public class HelloController {
             }
         }
 
+        // if there is not then go make an edge
         if (!has_duplicate){
 
             Line line = new Line(v0.getLayoutX(),v0.getLayoutY(), v1.getLayoutX(), v1.getLayoutY());
             line.setId(edgename);
 
-           Line line2 = new Line(v0.getLayoutX(),v0.getLayoutY(), v1.getLayoutX(), v1.getLayoutY());
-            line2.setId(rev_edgename);
-
             System.out.println(line.getId());
             graph.getChildren().add(line);
-
             edges_button_array.add(line);
-            edges_button_array.add(line2);
 
+
+            //REMOVE edge
             line.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2) {
                     graph.getChildren().remove(line);
                     edges_button_array.remove(line);
+                    graph_backend.removeEdge(v0.getVertexObj(), v1.getVertexObj());
                 }
             });
-            String default_width = "-fx-stroke-width: 5;";
+            String default_width = "-fx-stroke-width: 2.7;";
             line.setStyle(default_width);
 
             graph_backend.addEdge(v0.getVertexObj(), v1.getVertexObj(), null);
@@ -243,17 +356,21 @@ public class HelloController {
 
         // call first the edges of the vertex
         for(Edge edge_tmp: vertex.getVertexObj().getEdges()){
+            System.out.println("edge_tmp");
             // to find the specific line in the frontend from the backend
             for (Line line_tmp: edges_button_array){
                 // if found the line
                 if (line_tmp.getId().contains(edge_tmp.getStartV().getData()) && line_tmp.getId().contains(edge_tmp.getEndV().getData())){
+                    System.out.println("LINE FOUND");
                     String k = String.valueOf(line_tmp.getId().charAt(1));
                     String l = String.valueOf(line_tmp.getId().charAt(0));
                     // if the vertex you are moving has the endpoint of the line
                     if(vertex.getText().equals(k)){
+                        System.out.println("edge movving");
                         line_tmp.setEndX(newX);
                         line_tmp.setEndY(newY);
                     } else if (vertex.getText().equals(l)) { // but if the vertex you are moving has the startingpoint of the line
+                        System.out.println("Edge moving");
                         line_tmp.setStartX(newX);
                         line_tmp.setStartY(newY);
                     }
@@ -262,27 +379,172 @@ public class HelloController {
         }
     }
 
-    private void WhenEdgePointDragged(MouseEvent e, Circle c, Line line, String loc){
-        c.setLayoutX(c.getLayoutX() + e.getX() + c.getTranslateX());
-        c.setLayoutY(c.getLayoutY() + e.getY() + c.getTranslateY());
+    // initialize all variables in the fxml file
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // This is just when you click that power off button
+        exit.setOnMouseClicked(event -> System.exit(0));
+        MenuBack.setVisible(false);
 
-        double newX = c.getLayoutX() + e.getX() + c.getTranslateX();
-        double newY = c.getLayoutY() + e.getY() + c.getTranslateY();
+        slider.setTranslateX(180);
 
-        double snappingRange = 20; // Adjust as needed
+        Menu.setOnMouseClicked(event -> {
+            System.out.println("menu is clicked");
+            TranslateTransition slide = new TranslateTransition();
+            slide.setDuration(Duration.seconds(0.5));
+            slide.setNode(slider);
 
-        if (loc.equals("start")){
-            line.setStartX(newX);
-            line.setStartY(newY);
-            //snapToVertex(newX, newY, line, snappingRange);
-        } else if (loc.equals("end")) {
-            line.setEndX(newX);
-            line.setEndY(newY);
-            //snapToVertex(newX, newY, line, snappingRange);
-        }
+            slide.setToX(0);
+            slide.play();
+
+            // the slider variable is the side menu itself that contains all options (Euler, Hamil, Djiks, etc)
+            slider.setTranslateX(176);
+
+            slide.setOnFinished((ActionEvent e) -> {
+                Menu.setVisible(false);
+                MenuBack.setVisible(true);
+            });
+        });
+
+        // hide the menu
+        MenuBack.setOnMouseClicked(event -> {
+            System.out.println("closemenu is clicked");
+            TranslateTransition slide = new TranslateTransition();
+            slide.setDuration(Duration.seconds(0.5));
+            slide.setNode(slider);
+
+            slide.setToX(180);
+            slide.play();
+
+            slider.setTranslateX(0);
+
+            slide.setOnFinished((ActionEvent e) -> {
+                Menu.setVisible(true);
+                MenuBack.setVisible(false);
+            });
+        });
+
     }
 
-    //visual fix for edges, dont mind
-    private void DetectEdgePointDrag(MouseEvent e, Circle c, Line line) {line.toBack();         }
+    // CALL HAMILTONIAN Circuit
+    public void HamilCircScene(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ShowHamilCircuit.fxml"));
+        root = fxmlLoader.load();
+
+        Stage old_stage = (Stage) HamiltonianCircuit.getScene().getWindow();
+        showHamilCircuit = fxmlLoader.getController();
+        showHamilCircuit.setHamilCircData(vertex_button_array, graph_backend, graph, edges_button_array);
+
+        Stage stage = new Stage();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.show();
+
+        //''back button''
+        old_stage.close();
+    }
+
+    // CALL EULERIAN CIRCUIT
+    public void EulerCircScene(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ShowEulerCirc.fxml"));
+        root = fxmlLoader.load();
+
+        Stage old_stage = (Stage) EulerianCircuit.getScene().getWindow();
+        showEulerCirc = fxmlLoader.getController();
+        showEulerCirc.setEulerCircData(vertex_button_array, graph_backend, graph , edges_button_array, old_stage);
+
+
+        Stage stage = new Stage();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.show();
+
+
+        //''back button''
+        old_stage.close();
+
+    }
+
+    // CALL HAMILTONIAN PATH
+    @FXML
+    void HamilPathScene(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ShowHamilPath.fxml"));
+        root = fxmlLoader.load();
+
+        Stage old_stage = (Stage) HamiltonianPath.getScene().getWindow();
+        showHamilPath = fxmlLoader.getController();
+        showHamilPath.setHamilPathData(vertex_button_array, graph_backend, graph,edges_button_array);
+
+        Stage stage = new Stage();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.show();
+
+        old_stage.close();
+    }
+
+
+    // CALL ABOUT
+    public void AboutScene (ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("About.fxml"));
+        root = fxmlLoader.load();
+
+        Stage stage = new Stage();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.show();
+
+        Stage old_stage = (Stage) About.getScene().getWindow();
+        //''back button''
+        old_stage.hide();
+    }
+
+    // CALL INSTRUCTION
+    public void InstructionScene (ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Instruction.fxml"));
+        root = fxmlLoader.load();
+
+        Stage stage = new Stage();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.show();
+
+        Stage old_stage = (Stage) Instructions.getScene().getWindow();
+        //''back button''
+        old_stage.close();
+    }
+
+    // TO EXTRACT THE OUTCOME
+    @FXML
+    void implementDataModel(ActionEvent event) {
+
+        // if a path/circuit is clicked previously...
+        dataModel = showHamilCircuit.getDataModel();
+        //dataModel is contains all vertex that is the hamiltonian path.
+    }
+
+
+    // TO MOVE THE APPLICATION
+    Double x = 0.0;
+    Double y = 0.0;
+    @FXML
+    void BorderDrag(MouseEvent event) {
+        Stage stage = (Stage) borderpane.getScene().getWindow();
+        stage.setY(event.getScreenY() - y);
+        stage.setX(event.getScreenX() - x);
+    }
+
+    @FXML
+    void BorderPress(MouseEvent event){
+        x = event.getSceneX();
+        y = event.getSceneY();
+    }
+
+
 
 }

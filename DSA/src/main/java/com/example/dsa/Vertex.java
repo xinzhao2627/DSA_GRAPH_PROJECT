@@ -1,14 +1,13 @@
 package com.example.dsa;
 
-//import java.util.ArrayList;
-import java.util.ArrayList;
-import java.util.LinkedList;
-
+import java.util.*;
 
 public class Vertex {
 
     private String data;
     private LinkedList< Edge > edges ; //will create a linkedList of Edge object containing vertices
+    private LinkedList <Edge > edges_duplicate = new LinkedList<>();
+    boolean visited = false;
 
     //constructor
     public Vertex(String inputData){
@@ -19,10 +18,15 @@ public class Vertex {
     public void creatEdge(Vertex destination, Integer weight){
         Edge edge = new Edge(this, destination, weight);
         this.edges.add(edge);
+        this.edges_duplicate.add(edge);
     }
 
     public void removeEdge(Vertex endVertex) {
         this.edges.removeIf(edge -> edge.getEndV().equals(endVertex));
+    }
+
+    public void removeEdgeDup(Vertex endVertex) {
+        this.edges_duplicate.removeIf(edge -> edge.getEndV().equals(endVertex));
     }
 
     public String getData() {
@@ -59,12 +63,27 @@ public class Vertex {
         System.out.println(message);
     }
 
+    public void setVisited(boolean visited) {
+        this.visited = visited;
+    }
 
+    public boolean isVisited() {
 
+        return visited;
+    }
 
+    public LinkedList <Edge> getEdgeDup (){
+        return this.edges_duplicate;
+    }
 
+    public void restoreEdges (){
 
+        for(Edge e_dup : this.edges_duplicate){
 
+            this.edges.add(e_dup);
 
+        }
+
+    }
 
 }

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="EulerCircMain" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.dsa.ShowEulerCirc">
+    <children>
+        <BorderPane style="-fx-background-color: #C0EEE4;">
+            <top>
+                <AnchorPane prefHeight="67.0" prefWidth="700.0" style="-fx-background-color: #E1FFEE;" BorderPane.alignment="CENTER">
+                    <children>
+                        <Pane layoutX="34.0" layoutY="13.0" prefHeight="29.0" prefWidth="1471.0" style="-fx-background-color: #F8F988;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <children>
+                                <Label layoutX="14.0" layoutY="7.0" text="GRAPH MAKER V1.0" />
+                            </children>
+                        </Pane>
+                        <HBox layoutX="150.0" layoutY="4.0" prefHeight="43.0" prefWidth="778.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="25.0">
+                            <children>
+                                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="43.0" prefWidth="779.0" text="Eulerian Circuit/Path">
+                                    <HBox.margin>
+                                        <Insets />
+                                    </HBox.margin>
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                </Label>
+                            </children></HBox>
+                    </children>
+                </AnchorPane>
+            </top>
+         <right>
+            <AnchorPane prefHeight="477.0" prefWidth="186.0" style="-fx-border-color: black;" BorderPane.alignment="CENTER">
+               <children>
+                        <Button fx:id="btn_exit" layoutX="67.0" layoutY="430.0" mnemonicParsing="false" onMouseClicked="#exit" style="-fx-background-color: #FFD9C0; -fx-border-color: black; -fx-border-radius: 22; -fx-border-width: 0.7; -fx-background-radius: 22;" text="CLOSE" />
+                  <Button fx:id="next_btn" layoutX="70.0" layoutY="384.0" mnemonicParsing="false" onMouseClicked="#nextAction" style="-fx-background-color: #FFD9C0; -fx-border-color: black; -fx-border-radius: 22; -fx-border-width: 0.7; -fx-background-radius: 22;" text="NEXT" />
+                        <Label fx:id="start_label" alignment="CENTER" layoutX="73.0" layoutY="273.0" text="START">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="start_textfield" alignment="CENTER" layoutX="66.0" layoutY="221.0" prefHeight="34.0" prefWidth="54.0" style="-fx-border-color: black; -fx-background-color: transparent;" />
+                        <Label fx:id="fromtoprompt" alignment="CENTER" layoutX="2.57142865901091" layoutY="15.428571954065458" prefHeight="165.0" prefWidth="183.0" text="LABEL" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="15.0">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="vertex_label" alignment="CENTER" layoutX="69.0" layoutY="190.0" text="VERTEX">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Label>
+                        <Button fx:id="btn_enter" layoutX="67.0" layoutY="334.0" mnemonicParsing="false" onMouseClicked="#enter" style="-fx-background-color: #FFD9C0; -fx-border-color: black; -fx-border-radius: 22; -fx-border-width: 0.7; -fx-background-radius: 22;" text="ENTER" />
+               </children>
+            </AnchorPane>
+         </right>
+         <center>
+                <AnchorPane fx:id="graph_options" prefHeight="477.0" prefWidth="706.0" stylesheets="@UIStylesheets.css" BorderPane.alignment="CENTER" />
+         </center>
+        </BorderPane>
+    </children>
+</AnchorPane>
