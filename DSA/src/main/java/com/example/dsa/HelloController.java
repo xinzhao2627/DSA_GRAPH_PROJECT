@@ -44,7 +44,8 @@ public class HelloController implements Initializable {
     ShowHamilCircuit showHamilCircuit;
     ShowEulerCirc showEulerCirc;
     ShowHamilPath showHamilPath;
-
+    About   about;
+    Instruction instruction;
     DataModel dataModel;
 
 
@@ -492,13 +493,17 @@ public class HelloController implements Initializable {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("About.fxml"));
         root = fxmlLoader.load();
 
+        Stage old_stage = (Stage) About.getScene().getWindow();
+        about = fxmlLoader.getController();
+        about.setPrevious_stage(old_stage);
+
         Stage stage = new Stage();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
 
-        Stage old_stage = (Stage) About.getScene().getWindow();
+
         //''back button''
         old_stage.hide();
     }
@@ -508,15 +513,18 @@ public class HelloController implements Initializable {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Instruction.fxml"));
         root = fxmlLoader.load();
 
+        Stage old_stage = (Stage) About.getScene().getWindow();
+        instruction = fxmlLoader.getController();
+        instruction.setPrevious_stage(old_stage);
+
         Stage stage = new Stage();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
 
-        Stage old_stage = (Stage) Instructions.getScene().getWindow();
         //''back button''
-        old_stage.close();
+        old_stage.hide();
     }
 
     // TO EXTRACT THE OUTCOME

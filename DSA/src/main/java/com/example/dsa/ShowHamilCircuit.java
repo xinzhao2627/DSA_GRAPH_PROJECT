@@ -156,24 +156,21 @@ public class ShowHamilCircuit implements Initializable {
                     if (!checker){
                         Alert errorAlert2 = new Alert(Alert.AlertType.ERROR);
                         errorAlert2.setTitle("Error");
-                        errorAlert2.setHeaderText("NO SOLUTION");
-                        errorAlert2.setContentText("NO SOLUTION");
+                        errorAlert2.setHeaderText("NO SOLUTION.");
+                        errorAlert2.setContentText("There is no Hamiltonian Circuit in the graph");
                         errorAlert2.showAndWait();
-                        Stage stage = (Stage) btn_enter.getScene().getWindow();
-                        //''back button''
-                        stage.close();
-                    }
-
-                    next_btn.setVisible(true);
-                    fromtoprompt.setVisible(false);
-                    start_textfield.setVisible(false);
-                    start_label.setVisible(false);
-                    vertex_label.setVisible(false);
-                    btn_enter.setVisible(false);
+                    } else {
+                        next_btn.setVisible(true);
+                        fromtoprompt.setVisible(false);
+                        start_textfield.setVisible(false);
+                        start_label.setVisible(false);
+                        vertex_label.setVisible(false);
+                        btn_enter.setVisible(false);
 
                         // MAIN METHODS FOR HAMILTONIAN PATH/CIRCUIT
-
+                    }
                     graph_options.getChildren().addAll(graph_dupe.getChildren());
+
                 }
             }
         } catch (NullPointerException e){
@@ -184,27 +181,32 @@ public class ShowHamilCircuit implements Initializable {
     }
     @FXML
     void nextAction(MouseEvent event) {
-        if (counter < hamiltonian.getHamilCircuitEdge().size()){
-            System.out.println("Working: " + counter);
+        try {
+            if (counter < hamiltonian.getHamilCircuitEdge().size()){
+                System.out.println("Working: " + counter);
 
-            for (Line linetmp: edges_button_array){
-                String v0 = String.valueOf(linetmp.getId().charAt(0));
-                String v1 = String.valueOf(linetmp.getId().charAt(1));
-                System.out.println("Line ID:  " + linetmp.getId());
-                System.out.println("HAMILTONIAN EDGES ID " + hamiltonian.getHamilCircuitEdge().get(counter));
+                for (Line linetmp: edges_button_array){
+                    String v0 = String.valueOf(linetmp.getId().charAt(0));
+                    String v1 = String.valueOf(linetmp.getId().charAt(1));
+                    System.out.println("Line ID:  " + linetmp.getId());
+                    System.out.println("HAMILTONIAN EDGES ID " + hamiltonian.getHamilCircuitEdge().get(counter));
 
-                if(hamiltonian.getHamilCircuitEdge().get(counter).contains(v0) && hamiltonian.getHamilCircuitEdge().get(counter).contains(v1)){
-                    linetmp.setVisible(true);
-                    linetmp.toBack();
-                    linetmp.setDisable(true);
-                    break;
+                    if(hamiltonian.getHamilCircuitEdge().get(counter).contains(v0) && hamiltonian.getHamilCircuitEdge().get(counter).contains(v1)){
+                        linetmp.setVisible(true);
+                        linetmp.toBack();
+                        linetmp.setDisable(true);
+                        break;
+                    }
                 }
+                counter++;
             }
-            counter++;
+        } catch (NullPointerException e) {
+            Alert errorAlert3 = new Alert(Alert.AlertType.ERROR);
+            errorAlert3.setTitle("Error");
+            errorAlert3.setHeaderText("No Solution.");
+            errorAlert3.setContentText("There is no Hamiltonian Circuit in the graph");
+            errorAlert3.showAndWait();
         }
-
-
-
     }
 
     public DataModel getDataModel() {

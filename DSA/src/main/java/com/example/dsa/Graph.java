@@ -39,7 +39,7 @@ public class Graph {
 
     public void removeEdge(Vertex vertex1, Vertex vertex2) {
         vertex1.removeEdge(vertex2);
-        if (!this.isDirected) {
+        if (this.isDirected == false) {
             vertex2.removeEdge(vertex1);
         }
     }
@@ -83,6 +83,7 @@ public class Graph {
     public void clearEulerEdges(){
         this.eulerEdges.clear();
     }
+
 
     public void restoreEdges() {
 
@@ -225,14 +226,22 @@ public class Graph {
             //Find a vertex with an odd degree
             for(Vertex v : this.getVertices()){
                 if(v.getEdges().size() % 2 == 1) {
+                    v.setIsOddDeg(true);
                     start2 = v;
                     odd = odd + 1;
                 }
             }
 
             if(odd == 2) {
-                System.out.println("The graph is only semi-eulerian so we will start with an odd edge instead");
-                printEulerUtil(start2);
+
+                if(start.getIsOddDeg() == true){
+                    System.out.println("The graph is only semi-eulerian so we will start with an odd edge instead");
+                    printEulerUtil(start);
+                } else {
+                    printEulerPath(start2);
+                }
+
+
 
             } else{
                 System.out.println("Output ");
@@ -256,10 +265,15 @@ public class Graph {
         ArrayList <Vertex> visited = new ArrayList<>();
         ArrayList <String> visitedData = new ArrayList<>();
 
+        for(Vertex v : this.getVertices ()) {
+            v.setVisited(false);
+        }
+
         if(this.getVertices().contains(startVertex)) {
 
             //the stack will begin with the startVertex
             vxstack.push(startVertex);
+
 
 
             //as long as the stack is not empty
@@ -299,7 +313,7 @@ public class Graph {
             //System.out.println("Count of Visited Vertices: " + visited.size());
 
 
-        } //System.out.println(" END OF DFS COUNT: " + "\n");
+        } //System.out.println("\nEND OF DFS COUNT: " + "\n");
         return visited.size();
 
 
@@ -374,7 +388,7 @@ public class Graph {
             edge = start.getEdges().get(i);
 
 
-            if(isValidEdge(start, edge.getEndV()) && edge.isTraversed() == false){
+            if(isValidEdge(start, edge.getEndV())){ //&& edge.isTraversed() == false){
 
                 System.out.print(start.getData() + "->" + edge.getEndV().getData() + " -> ");
                 String strEdge = start.getData() + edge.getEndV().getData();
@@ -405,3 +419,4 @@ public class Graph {
 
 
 }
+

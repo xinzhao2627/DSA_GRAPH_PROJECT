@@ -181,6 +181,13 @@ public class ShowEulerCirc implements Initializable {
     }
     @FXML
     void nextAction(MouseEvent event) {
+        if (euler_edges.isEmpty()){
+            Alert errorAlert3 = new Alert(Alert.AlertType.ERROR);
+            errorAlert3.setTitle("Error");
+            errorAlert3.setHeaderText("No Euler Edges");
+            errorAlert3.setContentText("There is no Euler Edges in the graph");
+            errorAlert3.showAndWait();
+        }
         if (counter < euler_edges.size()){
 
             for (Line linetmp: edges_button_array){

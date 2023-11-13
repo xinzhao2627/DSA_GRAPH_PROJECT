@@ -72,7 +72,7 @@ public class Hamiltonian {
         }
     }
 
-    public void getHamilPath(String startingVertex, String endVertex){
+    public Boolean getHamilPath(String startingVertex, String endVertex){
         this.startingVertex = startingVertex;
         this.endVertex = endVertex;
 
@@ -92,9 +92,11 @@ public class Hamiltonian {
                 System.out.print(" --> " + hamiltonianPath.get(i));
             }
             System.out.println();
+            return true;
         }
         else{
             System.out.println("No Solution.");
+            return false;
         }
     }
 

@@ -88,7 +88,7 @@ public class ShowHamilPath implements Initializable {
                 v_min = vertex_tmp.getText();
             }
         }
-        String ini_path = "Select Hamiltonian Path from " + v_min + " to " + v_max;
+        String ini_path = "Select \n Hamiltonian Path from \n" + v_min + " to " + v_max;
         fromtoprompt.setText(ini_path);
 
         this.vertex_button_array = new ArrayList<VxButtonObj>(vertex_button_array);
@@ -160,19 +160,37 @@ public class ShowHamilPath implements Initializable {
                     // ERROR UI
                     errorAlert.showAndWait();
                 } else { // if there is no error
-                    hamiltonian = new Hamiltonian(graph_backend.getVertices());
-                    hamiltonian.getHamilPath(tmp_start, tmp_end);
 
-                    next_btn.setVisible(true);
-                    fromtoprompt.setVisible(false);
-                    start_textfield.setVisible(false);
-                    start_label.setVisible(false);
-                    vertex_label.setVisible(false);
-                    btn_enter.setVisible(false);
-                    end_textfield.setVisible(false);
-                    end_label.setVisible(false);
-                    vertex_label1.setVisible(false);
+                    try{
+                        hamiltonian = new Hamiltonian(graph_backend.getVertices());
+                        Boolean checker = hamiltonian.getHamilPath(tmp_start, tmp_end);
 
+                        if (!checker){
+                            Alert errorAlert2 = new Alert(Alert.AlertType.ERROR);
+                            errorAlert2.setTitle("Error");
+                            errorAlert2.setHeaderText("NO SOLUTION.");
+                            errorAlert2.setContentText("There is no Hamiltonian Path in the graph");
+                            errorAlert2.showAndWait();
+                        } else {
+                            next_btn.setVisible(true);
+                            fromtoprompt.setVisible(false);
+                            start_textfield.setVisible(false);
+                            start_label.setVisible(false);
+                            vertex_label.setVisible(false);
+                            btn_enter.setVisible(false);
+                            end_textfield.setVisible(false);
+                            end_label.setVisible(false);
+                            vertex_label1.setVisible(false);
+                        }
+
+
+                    } catch (Exception e){
+                        Alert errorAlert4 = new Alert(Alert.AlertType.ERROR);
+                        errorAlert4.setTitle("Error");
+                        errorAlert4.setHeaderText("NO SOLUTION.");
+                        errorAlert4.setContentText("There is no Hamiltonian Path in the graph");
+                        errorAlert4.showAndWait();
+                    }
                     graph_options.getChildren().addAll(graph_dupe.getChildren());
                 }
             }
@@ -184,27 +202,32 @@ public class ShowHamilPath implements Initializable {
     }
     @FXML
     void nextAction(ActionEvent event) {
-        if (counter < hamiltonian.getHamilPathEdge().size()){
-            System.out.println("Working: " + counter);
+        try {
+            if (counter < hamiltonian.getHamilPathEdge().size()){
+                System.out.println("Working: " + counter);
 
-            for (Line linetmp: edges_button_array){
-                String v0 = String.valueOf(linetmp.getId().charAt(0));
-                String v1 = String.valueOf(linetmp.getId().charAt(1));
-                System.out.println("Line ID:  " + linetmp.getId());
-                System.out.println("HAMILTONIAN EDGES ID " + hamiltonian.getHamilPathEdge().get(counter));
+                for (Line linetmp: edges_button_array){
+                    String v0 = String.valueOf(linetmp.getId().charAt(0));
+                    String v1 = String.valueOf(linetmp.getId().charAt(1));
+                    System.out.println("Line ID:  " + linetmp.getId());
+                    System.out.println("HAMILTONIAN EDGES ID " + hamiltonian.getHamilPathEdge().get(counter));
 
-                if(hamiltonian.getHamilPathEdge().get(counter).contains(v0) && hamiltonian.getHamilPathEdge().get(counter).contains(v1)){
-                    linetmp.setVisible(true);
-                    linetmp.toBack();
-                    linetmp.setDisable(true);
-                    break;
+                    if(hamiltonian.getHamilPathEdge().get(counter).contains(v0) && hamiltonian.getHamilPathEdge().get(counter).contains(v1)){
+                        linetmp.setVisible(true);
+                        linetmp.toBack();
+                        linetmp.setDisable(true);
+                        break;
+                    }
                 }
+                counter++;
             }
-            counter++;
+        }catch (NullPointerException e){
+            Alert errorAlert3 = new Alert(Alert.AlertType.ERROR);
+            errorAlert3.setTitle("Error");
+            errorAlert3.setHeaderText("NO SOLUTION.");
+            errorAlert3.setContentText("There is no Hamiltonian Path in the graph");
+            errorAlert3.showAndWait();
         }
-
-
-
     }
 
     public DataModel getDataModel() {

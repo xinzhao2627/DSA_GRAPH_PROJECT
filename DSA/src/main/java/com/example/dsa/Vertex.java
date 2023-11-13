@@ -8,6 +8,7 @@ public class Vertex {
     private LinkedList< Edge > edges ; //will create a linkedList of Edge object containing vertices
     private LinkedList <Edge > edges_duplicate = new LinkedList<>();
     boolean visited = false;
+    boolean oddDeg = false;
 
     //constructor
     public Vertex(String inputData){
@@ -85,5 +86,19 @@ public class Vertex {
         }
 
     }
+
+    public Boolean getIsOddDeg () {
+        return oddDeg;
+    }
+
+    public void setIsOddDeg (Boolean deg) {
+        this.oddDeg = deg;
+    }
+
+
+
+
+
+
 
 }

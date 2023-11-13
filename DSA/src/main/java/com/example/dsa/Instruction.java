@@ -11,10 +11,16 @@ public class Instruction {
     private Button btn_exit;
     @FXML
     BorderPane borderpane;
+    Stage previous_stage;
+
+    public void setPrevious_stage(Stage previous_stage) {
+        this.previous_stage = previous_stage;
+    }
 
     public void exit(MouseEvent mouseEvent) {
         Stage stage = (Stage) btn_exit.getScene().getWindow();
         // do what you have to do
+        previous_stage.show();
         stage.close();
     }
 
