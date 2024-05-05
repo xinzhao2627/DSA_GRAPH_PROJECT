@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="477.0" prefWidth="778.0" stylesheets="@UIStylesheets.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.dsa.HelloController">
+<AnchorPane prefHeight="477.0" prefWidth="778.0" stylesheets="@UIStylesheets.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.dsa.mainController">
    <children>
       <BorderPane fx:id="borderpane" onMouseDragged="#BorderDrag" onMousePressed="#BorderPress" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #C0EEE4;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
