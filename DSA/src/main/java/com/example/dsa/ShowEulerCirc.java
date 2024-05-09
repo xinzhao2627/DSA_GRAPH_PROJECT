@@ -1,6 +1,5 @@
 package com.example.dsa;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -13,7 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.image.ImageView;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -100,11 +98,11 @@ public class ShowEulerCirc implements Initializable {
         System.out.println("FINAL GRAPH BACKEND");
         graph_backend.print();
         
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("mainView.fxml"));
         Parent root = fxmlLoader.load();
 
-        HelloController helloController;
-        helloController = fxmlLoader.getController();
+        mainController mainController;
+        mainController = fxmlLoader.getController();
 
         for (Node node: graph_options.getChildren()){
             node.setVisible(true);
@@ -112,7 +110,7 @@ public class ShowEulerCirc implements Initializable {
 
 
 
-        helloController.setHelloControllerData(graph_options, graph_backend, vertex_button_array, edges_button_array);
+        mainController.setMainControllerData(graph_options, graph_backend, vertex_button_array, edges_button_array);
 
         Stage controller_stage = new Stage();
         Scene scene = new Scene(root);
