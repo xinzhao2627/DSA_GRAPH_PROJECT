@@ -12,7 +12,7 @@ public class mainApp extends Application {
     /**
      *<h1 style="font-weight:bold;">Main Application</h1>
      * <p style="font-family:Calibri; font-size: 15px;">mainApp.java operates the fxml file of the mainController.java. This is where the application is supposed
-     * to be operated in order to start the program.</p>
+     * to be operated in order to start the program. Hello World</p>
      */
     @Override
     public void start(Stage stage) throws IOException {
