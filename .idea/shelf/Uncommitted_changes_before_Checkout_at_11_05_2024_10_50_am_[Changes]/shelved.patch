@@ -1,0 +1,216 @@
+Index: DSA/src/main/java/module-info.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>module com.example.dsa {\r\n    requires javafx.controls;\r\n    requires javafx.fxml;\r\n\r\n    requires org.controlsfx.controls;\r\n    requires net.synedra.validatorfx;\r\n    requires org.kordamp.ikonli.javafx;\r\n    requires org.kordamp.bootstrapfx.core;\r\n\r\n    opens com.example.dsa to javafx.fxml;\r\n    exports com.example.dsa;\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/DSA/src/main/java/module-info.java b/DSA/src/main/java/module-info.java
+--- a/DSA/src/main/java/module-info.java	(revision 3858148ad77c7836f408ce53fdfc306950213221)
++++ b/DSA/src/main/java/module-info.java	(date 1715395769668)
+@@ -1,12 +1,6 @@
+ module com.example.dsa {
+     requires javafx.controls;
+     requires javafx.fxml;
+-
+-    requires org.controlsfx.controls;
+-    requires net.synedra.validatorfx;
+-    requires org.kordamp.ikonli.javafx;
+-    requires org.kordamp.bootstrapfx.core;
+-
+     opens com.example.dsa to javafx.fxml;
+     exports com.example.dsa;
+ }
+\ No newline at end of file
+Index: DSA/target/classes/com/example/dsa/UIStyles.css
+===================================================================
+diff --git a/DSA/target/classes/com/example/dsa/UIStyles.css b/DSA/target/classes/com/example/dsa/UIStyles.css
+deleted file mode 100644
+--- a/DSA/target/classes/com/example/dsa/UIStyles.css	(revision 3858148ad77c7836f408ce53fdfc306950213221)
++++ /dev/null	(revision 3858148ad77c7836f408ce53fdfc306950213221)
+@@ -1,12 +0,0 @@
+-.UIvertex {
+-    -fx-font-size: 15;
+-    -fx-font-weight: bold;
+-    -fx-background-color: white;
+-    -fx-background-radius: 22;
+-    -fx-border-color: none;
+-}
+-
+-.UIcircle {
+-    -fx-background-color: white;
+-    -fx-border-color: black;
+-}
+\ No newline at end of file
+Index: .idea/modules.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/modules.xml b/.idea/modules.xml
+new file mode 100644
+--- /dev/null	(date 1715395640424)
++++ b/.idea/modules.xml	(date 1715395640424)
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ProjectModuleManager">
++    <modules>
++      <module fileurl="file://$PROJECT_DIR$/.idea/DSA_GRAPH_PROJECT.iml" filepath="$PROJECT_DIR$/.idea/DSA_GRAPH_PROJECT.iml" />
++    </modules>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/DSA_GRAPH_PROJECT.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/DSA_GRAPH_PROJECT.iml b/.idea/DSA_GRAPH_PROJECT.iml
+new file mode 100644
+--- /dev/null	(date 1715395640413)
++++ b/.idea/DSA_GRAPH_PROJECT.iml	(date 1715395640413)
+@@ -0,0 +1,9 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<module type="JAVA_MODULE" version="4">
++  <component name="NewModuleRootManager" inherit-compiler-output="true">
++    <exclude-output />
++    <content url="file://$MODULE_DIR$" />
++    <orderEntry type="inheritedJdk" />
++    <orderEntry type="sourceFolder" forTests="false" />
++  </component>
++</module>
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+new file mode 100644
+--- /dev/null	(date 1715395640444)
++++ b/.idea/misc.xml	(date 1715395640444)
+@@ -0,0 +1,14 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="ExternalStorageConfigurationManager" enabled="true" />
++  <component name="MavenProjectsManager">
++    <option name="originalFiles">
++      <list>
++        <option value="$PROJECT_DIR$/DSA/pom.xml" />
++      </list>
++    </option>
++  </component>
++  <component name="ProjectRootManager" version="2" project-jdk-name="21" project-jdk-type="JavaSDK">
++    <output url="file://$PROJECT_DIR$/out" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+new file mode 100644
+--- /dev/null	(date 1715395640438)
++++ b/.idea/vcs.xml	(date 1715395640438)
+@@ -0,0 +1,6 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="VcsDirectoryMappings">
++    <mapping directory="" vcs="Git" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/encodings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/encodings.xml b/.idea/encodings.xml
+new file mode 100644
+--- /dev/null	(date 1715395640457)
++++ b/.idea/encodings.xml	(date 1715395640457)
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="Encoding">
++    <file url="file://$PROJECT_DIR$/DSA/src/main/java" charset="UTF-8" />
++    <file url="file://$PROJECT_DIR$/DSA/src/main/resources" charset="UTF-8" />
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/compiler.xml b/.idea/compiler.xml
+new file mode 100644
+--- /dev/null	(date 1715395640450)
++++ b/.idea/compiler.xml	(date 1715395640450)
+@@ -0,0 +1,13 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="CompilerConfiguration">
++    <annotationProcessing>
++      <profile name="Maven default annotation processors profile" enabled="true">
++        <sourceOutputDir name="target/generated-sources/annotations" />
++        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
++        <outputRelativeToContentRoot value="true" />
++        <module name="DSA" />
++      </profile>
++    </annotationProcessing>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/jarRepositories.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/jarRepositories.xml b/.idea/jarRepositories.xml
+new file mode 100644
+--- /dev/null	(date 1715395640464)
++++ b/.idea/jarRepositories.xml	(date 1715395640464)
+@@ -0,0 +1,20 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="RemoteRepositoriesConfiguration">
++    <remote-repository>
++      <option name="id" value="central" />
++      <option name="name" value="Central Repository" />
++      <option name="url" value="https://repo.maven.apache.org/maven2" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="central" />
++      <option name="name" value="Maven Central repository" />
++      <option name="url" value="https://repo1.maven.org/maven2" />
++    </remote-repository>
++    <remote-repository>
++      <option name="id" value="jboss.community" />
++      <option name="name" value="JBoss Community repository" />
++      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
++    </remote-repository>
++  </component>
++</project>
+\ No newline at end of file
+Index: .idea/.gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/.gitignore b/.idea/.gitignore
+new file mode 100644
+--- /dev/null	(date 1715395580308)
++++ b/.idea/.gitignore	(date 1715395580308)
+@@ -0,0 +1,8 @@
++# Default ignored files
++/shelf/
++/workspace.xml
++# Editor-based HTTP Client requests
++/httpRequests/
++# Datasource local storage ignored files
++/dataSources/
++/dataSources.local.xml
