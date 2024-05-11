@@ -219,7 +219,7 @@ public class mainController implements Initializable {
             max++;
             vertex_button.setText(
                 (max == '[')
-                    ? String.valueOf(max + 6)
+                    ? String.valueOf((char)(max + 6))
                     : String.valueOf(max)
             );
         }
