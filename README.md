@@ -1,14 +1,9 @@
 # DSA_GRAPH_PROJECT
-
-TODO-LIST
-
-- EDGES UI SCENE 1 -> RAINNAND
-
-
+- EDGES UI SCENE 1
 
 methods:
 - Paths (IMPORTANT)
-- Circuit (IMPORTANT) - vernon
+- Circuit (IMPORTANT)
 
 /*
 - Euler Path
@@ -37,6 +32,3 @@ public Path(Vertex A, Vertex B) {
 	}
 }
 
-
-
-ASSIGNMENT: ARALIN https://youtu.be/dS44jZyj5gU?si=OfyJEdxsK_Fwygqg
